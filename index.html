@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WireViz Web</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+
+    #drop-zone {
+      border: 3px dashed #888;
+      padding: 3em;
+      width: 400px;
+      margin: auto;
+      color: #666;
+      transition: 0.3s;
+    }
+
+    #drop-zone.dragover {
+      border-color: #333;
+      background-color: #f0f0f0;
+    }
+
+    #svg-preview {
+      margin-top: 2em;
+    }
+  </style>
+</head>
+<body>
+  <h1>WireViz - Drag & Drop YAML</h1>
+  <div id="drop-zone">Drop a .yaml file here</div>
+  <div id="svg-preview"></div>
+
+  <script>
+    const dropZone = document.getElementById('drop-zone');
+    const svgPreview = document.getElementById('svg-preview');
+
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+
+      const file = e.dataTransfer.files[0];
+      if (!file || !file.name.match(/\.(yaml|yml)$/i)) {
+        alert("YAML file required");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('yml_file', file);
+
+      fetch('/render', {
+        method: 'POST',
+        headers: {
+          'Accept': 'image/svg+xml'
+        },
+        body: formData
+      })
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`Error ${res.status}: ${text}`);
+        }
+        return res.text();
+      })
+      .then(svg => {
+        svgPreview.innerHTML = svg;
+      })
+      .catch(err => {
+        alert("Error while rendering : " + err.message);
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
