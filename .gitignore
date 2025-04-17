@@ -1,6 +1,3 @@
 __pycache__
 build/
 dist/
-bin/
-wireviz_web/
-wireviz-web.exe
