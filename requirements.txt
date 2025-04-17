@@ -1,4 +1,4 @@
-wireviz-web
-flask
+pyinstaller
 pywebview
 requests
+wireviz-web
