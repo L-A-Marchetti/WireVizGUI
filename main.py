@@ -53,6 +53,6 @@ flask_thread = threading.Thread(target=start_flask)
 flask_thread.daemon = True
 flask_thread.start()
 
-time.sleep(2)
+# time.sleep(2)
 webview.create_window("WireViz GUI", "http://localhost:8080", width=1200, height=800)
 webview.start(debug=False)

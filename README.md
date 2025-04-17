@@ -2,7 +2,7 @@
 
 ## Summary
 
-This project aims to provide a simple and portable graphical interface for [WireViz](https://github.com/formatc1702/WireViz) by embedding [WireViz-Web](https://github.com/jurgen-key/wireviz-web) into a standalone executable. The GUI is implemented using [pywebview](https://github.com/r0x0r/pywebview), ensuring a lightweight native window without requiring a web browser.
+This project aims to provide a simple and portable graphical interface for [WireViz](https://github.com/formatc1702/WireViz) by embedding [WireViz-Web](https://github.com/wireviz/wireviz-web) into a standalone executable. The GUI is implemented using [pywebview](https://github.com/r0x0r/pywebview), ensuring a lightweight native window without requiring a web browser.
 
 **Main goals:**
 - Run WireViz through a graphical interface.
