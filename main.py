@@ -6,13 +6,27 @@ import threading
 from flask import Flask, request, Response
 import requests
 
+if getattr(sys, 'frozen', False):
+    base_dir = sys._MEIPASS
+else:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+# Configurer le chemin GraphViz et les variables d'environnement
+graphviz_bin = os.path.join(base_dir, "graphviz_bin")
+os.environ["PATH"] = graphviz_bin + os.pathsep + os.environ["PATH"]
+# Importante pour wireviz - indique explicitement où trouver dot.exe
+os.environ["GRAPHVIZ_DOT"] = os.path.join(graphviz_bin, "dot.exe")
+
+wireviz_web_exe = os.path.join(base_dir, "wireviz-web.exe")
+
 # Create a Flask app that will act as a proxy
 app = Flask(__name__)
 
 # Route to serve the HTML file
 @app.route('/')
 def serve_html():
-    with open('index.html', 'r', encoding='utf-8') as f:
+    with open(os.path.join(base_dir, "index.html"), 'r', encoding='utf-8') as f:
         content = f.read()
     return content
 

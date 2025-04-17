@@ -1,0 +1,4 @@
+wireviz-web
+flask
+pywebview
+requests
