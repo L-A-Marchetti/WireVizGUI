@@ -37,29 +37,34 @@
   <script>
     const dropZone = document.getElementById('drop-zone');
     const svgPreview = document.getElementById('svg-preview');
-
+  
+    ['dragover', 'drop'].forEach(eventName => {
+      document.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    });
+  
     dropZone.addEventListener('dragover', (e) => {
-      e.preventDefault();
       dropZone.classList.add('dragover');
     });
-
+  
     dropZone.addEventListener('dragleave', () => {
       dropZone.classList.remove('dragover');
     });
-
+  
     dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
       dropZone.classList.remove('dragover');
-
+  
       const file = e.dataTransfer.files[0];
       if (!file || !file.name.match(/\.(yaml|yml)$/i)) {
         alert("YAML file required");
         return;
       }
-
+  
       const formData = new FormData();
       formData.append('yml_file', file);
-
+  
       fetch('/render', {
         method: 'POST',
         headers: {
@@ -78,7 +83,7 @@
         svgPreview.innerHTML = svg;
       })
       .catch(err => {
-        alert("Error while rendering : " + err.message);
+        alert("Error while rendering: " + err.message);
         console.error(err);
       });
     });
